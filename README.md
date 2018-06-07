@@ -21,7 +21,8 @@ interactive  foreground/background  segmentation
 Example:
 
 <center>
-   ![](./readmeDisplay/1.png) ![](./readmeDisplay/2.png)
+   ![](./readmeDisplay/1.png)
+   ![](./readmeDisplay/2.png)
 </center>
 
 ***
@@ -75,8 +76,11 @@ Example:
 ![](./readmeDisplay/14.jpg)
 
 其中: p为 Multivariate Gussian Distribution:
+
 <img src="./readmeDisplay/9.png" width="400" height="50"/>
+
 代入得:
+
 <img src="./readmeDisplay/16.jpg" width="400" height="70"/>
 
 ***
