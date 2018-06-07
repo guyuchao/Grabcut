@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/Grabcut.iml" filepath="$PROJECT_DIR$/.idea/Grabcut.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../cut(复件)/.idea/cut.iml" filepath="$PROJECT_DIR$/../cut(复件)/.idea/cut.iml" />
+    </modules>
+  </component>
+</project>

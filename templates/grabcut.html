@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="GYC">
+
+    <title>Grabcut</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../static/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../static/dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" href="/static/css/fileupload/jquery.fileupload.css">
+
+    <link rel="stylesheet" href="../static/js/jquery-ui-1.11.0.custom/jquery-ui.css" />
+	<link rel="stylesheet" href="../static/js/jquery-ui-1.11.0.custom/jquery-ui.structure.css" />
+	<link rel="stylesheet" href="../static/js/colorpicker/jquery.colorpicker.css" />
+	<link rel="stylesheet" href="../static/js/jquery-ui-1.11.0.custom/jquery-ui.theme.css" />
+
+    <style type="text/css">
+        * {
+            font-family: '微软雅黑';
+            font-size:15px;
+        }
+
+
+        canvas {
+            border: 2px dashed gray;
+        }
+
+        .container_pencil{
+            cursor: url(../static/images/PencilToolCursor.gif), pointer;
+
+        }
+
+        #myCanvas{
+            background:rgba(255,255,255,0);/*关键点*/
+            position:absolute;
+            z-index:1;/*确保在遮盖的元素的上方*/
+            margin-top:14px;
+            margin-left:4px;
+        }
+        .imgBox{
+                width: 400px;
+                height: 400px;
+                background: #666666;
+                border: black;
+                display: inline-block;
+                margin-left: 5px;
+                margin-top: 15px;
+        }
+        #dialog{
+            background-color: #ffffff;
+        }
+        .margin_top{
+            margin-top: 20px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="foundation.html">Grabcut</a>
+            </div>
+            <!-- /.navbar-header -->
+
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i> 用户帐户</a>
+                        </li>
+                        <li><a href="/workplace"><i class="fa fa-gear fa-fw"></i> 我的图库</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> 退出登陆</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
+                        <li>
+                            <a href="/"><i class="fa fa-dashboard fa-fw"></i>交互抠图</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+
+       <!-- <div id="page-wrapper">
+            <div class="row clearfix" style="margin-top:80em" >
+                <div class="col-md-12 column">-->
+                    <div id="dialog" title="Grabcut" >
+                        <div style="font-size:14px;">
+                            <fieldset style="float:left;width:280px;">
+                                <legend>Tools</legend>
+                                <div><span>
+                                    <input type="radio" id="tools_pencil" name="tools"><label for="tools_pencil">Pencil</label>
+                                    <input type="radio" id="tools_rectangle" name="tools"><label for="tools_rectangle">Rectangle</label>
+                                    <input type="radio" id="tools_trash" name="tools"><label for="tools_trash">Trash</label>
+                                </span></div>
+
+                                <div style="border-top:1px dashed gray;margin-top:8px;padding-top:8px;">
+                                    <button class="btn btn-default" type="button"  id="tools_process"> 处理</button>
+                                    <button class="btn btn-default" type="button"  id="tools_undo"> 撤销</button>
+                                    <button class="btn btn-default" type="button"  id="tools_redo"> 重做</button>
+                                    <button class="btn btn-default" type="button"  id="tools_save"> 保存</button>
+                                </div>
+                            </fieldset>
+                            <fieldset style="width:180px;">
+                                <legend>Line Settings</legend>
+                                <h4><span class="label label-default" style="float: left;margin-top: 6px;">线宽</span></h4>
+                                    <select id="penWidth" >
+                                        <option value="1" selected>1px</option>
+                                        <option value="2">2px</option>
+                                        <option value="4">4px</option>
+                                        <option value="6">6px</option>
+                                        <option value="8">8px</option>
+                                        <option value="12">12px</option>
+                                        <option value="14">14px</option>
+                                        <option value="16">16px</option>
+                                        <option value="18">18px</option>
+                                    </select>
+                                    <div style="border-top:1px dashed gray;margin-top:8px;padding-top:8px;">
+                                        <h4><span class="label label-default" style="float: left;margin-top: 6px;">颜色</span></h4>
+                                        <input id="colorpicker-popup" type="text"  value="000000" style="width: 72px;display:none; ">
+                                    </div>
+                            </fieldset>
+                            <div style="clear:both;"></div>
+                        </div>
+                        <div style="position:relative;" id="container">
+                            <div id="temp" style="border:1px solid gray;width:1px;height:1px;position:absolute;display:none;"></div>
+                            <canvas id="myCanvas" width="400" height="400" class="container_pencil"></canvas>
+                                <div id='imgPanel' style="">
+                                    <div id="rawImg" class="imgBox "></div>
+                                    <div id="resImg" class="imgBox "></div>
+                                </div>
+                            <center>
+                                <div>
+                                    <a class="btn btn-primary btn-large margin_top" onclick="$(this).next().click()">点击上传</a>
+                                    <input type="file" name="file" style="display:none" class="btn-upload">
+                                </div>
+                            </center>
+                            <div>
+                                <strong>进度</strong>
+                                <div class="progress progress-striped active margin_top">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" id="progress_colorize" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+           <!-- </div>
+        </div>
+        <!-- /#page-wrapper -->
+
+    <!--</div>-->
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+	<script src="../static/js/jquery-1.11.1.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../static/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="/static/js/uploadjs/vendor/jquery.ui.widget.js"></script>
+    <script src="/static/js/uploadjs/jquery.iframe-transport.js"></script>
+    <script src="/static/js/uploadjs/jquery.fileupload.js"></script>
+
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../static/vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../static/dist/js/sb-admin-2.js"></script>
+
+
+    <script type="text/javascript" src="../static/js/jquery-ui-1.11.0.custom/jquery-ui.js"></script>
+	<script type="text/javascript" src="../static/js/colorpicker/jquery.colorpicker.js"></script>
+	<script type="text/javascript" src="../static/js/colorpicker/parts/jquery.ui.colorpicker-rgbslider.js"></script>
+	<script type="text/javascript" src="../static/js/myjs/grabcut.js"></script>
+
+</body>
+
+</html>
