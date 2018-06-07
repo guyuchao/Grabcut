@@ -20,7 +20,10 @@ interactive  foreground/background  segmentation
 ***
 Example:
 
-![](./readmeDisplay/1.png)![](./readmeDisplay/2.png)
+<center>
+   ![](./readmeDisplay/1.png)
+   ![](./readmeDisplay/2.png)
+</center>
 
 ***
 
@@ -63,8 +66,9 @@ Example:
 * GSM表达力不足
 
 我们引入:Gaussian Mixture Model（GMM）
-
+<center>
    ![](./readmeDisplay/4.png) ![](./readmeDisplay/8.png)
+</center>
 
 ***
 <font color=black size=5 face="黑体">引入GMM后，能量函数变为:</font>
@@ -84,7 +88,6 @@ Example:
 <font color=black size=5 face="黑体">如何计算GMM参数:</font>
 
 EM算法：
-
 <img src="./readmeDisplay/15.jpg" width="500" height="300"/>
 
 ***
