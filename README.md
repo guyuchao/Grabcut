@@ -27,7 +27,7 @@ Example:
 ### 要解决的问题
 #### Question1: 如何分割
 
-假如前景与背景的边权值较小，我们可以用mincut-maxflow算法解决
+发生在目标和背景的边界处的图割是最好的解，我们可以用最小割算法（graph cut）
 <center>
 	<img src="./readmeDisplay/5.png" width="400" height="200"/>
 </center>

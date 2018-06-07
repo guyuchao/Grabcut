@@ -127,22 +127,20 @@ class grabcut(object):
         self.graph = GCGraph(vertex_count, edge_count)
         for row in range(rows):
             for col in range(cols):
-                vertex_index = self.graph.add_vertex()  # add-node and return its index
+                #source background sink foreground
+                vertex_index = self.graph.add_vertex()
                 color = npimg[row, col]
-                # '''Set t-weights: Calculate the weight of each vertex with Sink node and Source node'''
                 if mask[row, col] == self.P_bgd or mask[row, col] == self.P_fgd:#pred fgd
                     fromSource = -log(self.BGD_GMM.pred_GMM(color))
                     toSink = -log(self.FGD_GMM.pred_GMM(color))
                 elif mask[row, col] == self.GT_bgd:
-                    # For the vertexs that are Background pixels, t-weight with Source = 0, with Sink = lam
                     fromSource = 0
                     toSink = self._lambda
-                else:#GT_fgd
+                else:
                     fromSource = self._lambda
                     toSink = 0
                 self.graph.add_term_weights(vertex_index, fromSource, toSink)
 
-                '''Set n-weights and n-link, Calculate the weights between two neighbour vertexs, which is also the second term in Gibbs Energy(the smooth term)'''
                 if col-1 >= 0:
                     w = self.lweight[row, col]
                     self.graph.add_edges(vertex_index, vertex_index - 1, w, w)
